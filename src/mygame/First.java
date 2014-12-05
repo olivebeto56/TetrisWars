@@ -24,12 +24,12 @@ public class First extends SimpleApplication {
 
 
    
-        public First(Node rootNode,AssetManager assetManager,Node guiNode, Camera cam,BitmapFont guiFont){
+        public First(Node rootNode,AssetManager assetManager,Node guiNode, Camera cam){
           this.assetManager=assetManager;
           this.rootNode=rootNode; 
           this.guiNode  =guiNode;
           this.cam=cam;
-          this.guiFont=guiFont;
+          //this.guiFont=guiFont;
           
           }
         public void setTex(String tex){

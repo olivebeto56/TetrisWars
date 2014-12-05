@@ -5,7 +5,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
-    import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
@@ -22,6 +22,7 @@ import java.awt.GraphicsEnvironment;
 	  boolean rightPressed=false;
 	  boolean downPressed=false;
 	  boolean upPressed=false;
+          boolean pause=false;
           
           int pantalla=0;
           String[] tex={"Textures/texture1.jpg","Textures/texture2.jpg","Textures/texture3.jpg","Textures/texture4.jpg"
@@ -63,8 +64,8 @@ import java.awt.GraphicsEnvironment;
             setDisplayFps(true);       // to hide the FPS
             setDisplayStatView(false); 
             
-            game=new Tetris(rootNode,assetManager,guiNode,cam); 
-            menu=new First(rootNode,assetManager,guiNode,cam,guiFont); 
+            game=new Tetris(rootNode,assetManager,guiNode,cam,renderManager); 
+            menu=new First(rootNode,assetManager,guiNode,cam); 
              
             menu.setTex(tex[0]);
             
@@ -94,6 +95,7 @@ import java.awt.GraphicsEnvironment;
                 game.rightPressed=rightPressed;
                 game.leftPressed=leftPressed;
                 game.downPressed=downPressed;
+                game.pause=pause;
         }
         
 
@@ -157,6 +159,8 @@ import java.awt.GraphicsEnvironment;
   private ActionListener actionListener = new ActionListener() {
     public void onAction(String name, boolean keyPressed, float tpf) {
       if (name.equals("Pause") && !keyPressed) {
+          if(pause==false)pause=true;
+          else if(pause==true)pause=false;
           
       }
       

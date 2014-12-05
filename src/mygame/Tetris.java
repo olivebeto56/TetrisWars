@@ -6,9 +6,14 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -23,6 +28,7 @@ public class Tetris extends SimpleApplication{
 	int level=0;
         int velocidad;
         String tex;
+        BitmapText helloText2;
 	
 	//FallingToken
 	int x,y;
@@ -42,6 +48,7 @@ public class Tetris extends SimpleApplication{
 	  boolean rightPressed=false;
 	  boolean downPressed=false;
 	  boolean spacePressed=false;
+          boolean pause=false;
           
           
           //node
@@ -49,11 +56,12 @@ public class Tetris extends SimpleApplication{
           
           
           
-          Tetris (Node rootNode,AssetManager assetManager,Node guiNode, Camera cam){
+          Tetris (Node rootNode,AssetManager assetManager,Node guiNode, Camera cam,RenderManager renderManager){
           this.assetManager=assetManager;
           this.rootNode=rootNode; 
           this.guiNode=guiNode;
           this.cam=cam;
+          this.renderManager=renderManager;
           }
 	
 	 static int[][][] xRotationArray = {
@@ -231,6 +239,8 @@ public class Tetris extends SimpleApplication{
 	   
 	      drawToken(x,y,xArray,yArray);
 	    }
+            
+            
 	    
 	    int x2=0,xn2=0;
 	    //!reachFloor
@@ -268,6 +278,33 @@ public class Tetris extends SimpleApplication{
                if(velocidad==1)delay=15;
                else if(velocidad==2)delay=7;
                else if(velocidad==3)delay=7;
+               
+                guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+                BitmapText helloText1 = new BitmapText(guiFont, false);
+                helloText1.setSize(40);
+                helloText1.setText("Score");
+                helloText1.setLocalTranslation(750, 350, 0);
+                guiNode.attachChild(helloText1);
+                
+                guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+                 helloText2 = new BitmapText(guiFont, false);
+                helloText2.setSize(40);
+                helloText2.setText(score+"");
+                helloText2.setLocalTranslation(750, 300, 0);
+                guiNode.attachChild(helloText2);
+                
+                
+                Camera cam2 = cam.clone();
+                cam2.setViewPort(.55f, .85f, .65f, .95f);
+                cam2.setLocation(new Vector3f(5.00f, 5.0f, 10.00f));
+                cam2.setRotation(new Quaternion(0.00f, 0.99f, -0.04f, 0.02f));
+                ViewPort viewPort2 = renderManager.createMainView("PiP", cam2);
+                viewPort2.setBackgroundColor(ColorRGBA.Gray);
+                viewPort2.setClearFlags(true, true, true);
+                viewPort2.attachScene(rootNode);
+               
+               
+               
 
            }
 	   public void printGameOver()
@@ -279,7 +316,7 @@ public class Tetris extends SimpleApplication{
                 
             public void tetris(){
              
-            if (!gameOver){
+            if (!gameOver&&!pause){
                               if(cont==0){
                                       FallingToken();
                                       cont++;
@@ -297,6 +334,7 @@ public class Tetris extends SimpleApplication{
                               else if(cont==2){
                                       complete=checkRowCompletion();
                                       clearCompleteRow(complete);
+                                      addScore(complete);
                                       cont++;
                               }
                               else if(cont==3){
@@ -310,8 +348,16 @@ public class Tetris extends SimpleApplication{
 
                               
                             paint();
-                          }else printGameOver();
+                          }else {
+                                if(gameOver){
+                                        printGameOver();
+                                }
+                                else if(pause){  }
+                            }
+                          
+                            
             
+                            helloText2.setText(score+"");
             movecamera();
         }
             
