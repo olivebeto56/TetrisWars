@@ -16,6 +16,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.ui.Picture;
 
 /**
  *
@@ -218,13 +219,14 @@ public class Tetris extends SimpleApplication{
 	   
 	    
 	    public void FallingToken(){
+                
+                
 	       x=5;y=0;
 	      
 	   
-	   
-	        tokenNumber = (int) (7*Math.random());
-	        rotationNumber = (int) (4*Math.random());
-	   
+                tokenNumber = tokenNumber1;
+	     rotationNumber = (int) (4*Math.random());
+
 	   
 	   
 	        xArray = xRotationArray[tokenNumber][rotationNumber];
@@ -293,7 +295,7 @@ public class Tetris extends SimpleApplication{
                 helloText2.setLocalTranslation(750, 300, 0);
                 guiNode.attachChild(helloText2);
                 
-                
+               /* 
                 Camera cam2 = cam.clone();
                 cam2.setViewPort(.55f, .85f, .65f, .95f);
                 cam2.setLocation(new Vector3f(5.00f, 5.0f, 10.00f));
@@ -302,9 +304,11 @@ public class Tetris extends SimpleApplication{
                 viewPort2.setBackgroundColor(ColorRGBA.Gray);
                 viewPort2.setClearFlags(true, true, true);
                 viewPort2.attachScene(rootNode);
+               */
                
                
-               
+                
+	        
 
            }
 	   public void printGameOver()
@@ -313,13 +317,20 @@ public class Tetris extends SimpleApplication{
 	   }
                 int cont=0;
                 int [] complete = null; 
-                
+                int tokenNumber1;
+                int cont1=0;
             public void tetris(){
-             
+             if(cont1==0){
+                tokenNumber1 = (int) (7*Math.random());
+                cont1=1;
+             }
             if (!gameOver&&!pause){
                               if(cont==0){
                                       FallingToken();
                                       cont++;
+                                      tokenNumber1 = (int) (7*Math.random());
+                                           System.out.print(tokenNumber1);
+
                               }
                               else if(cont==1){
                                       if(!reachFloor){    
@@ -352,7 +363,9 @@ public class Tetris extends SimpleApplication{
                                 if(gameOver){
                                         printGameOver();
                                 }
-                                else if(pause){  }
+                                else if(pause){ 
+                                        printPause();
+                                }
                             }
                           
                             
@@ -361,6 +374,38 @@ public class Tetris extends SimpleApplication{
             movecamera();
         }
             
+            public void printPause(){
+            Picture pic0 = new Picture("derecha");
+                pic0.setImage(assetManager, "Shaders/cuadrado.png", true);
+                pic0.setWidth(400);
+                pic0.setHeight(300);
+                pic0.setPosition(440, 250);
+                guiNode.attachChild(pic0);
+                
+                //1280x800
+                Picture pic = new Picture("derecha");
+                pic.setImage(assetManager, "Shaders/button.png", true);
+                pic.setWidth(200);
+                pic.setHeight(120);
+                pic.setPosition(590, 400);
+                guiNode.attachChild(pic);
+
+                Picture pic1 = new Picture("derecha");
+                pic1.setImage(assetManager, "Shaders/button.png", true);
+                pic1.setWidth(200);
+                pic1.setHeight(120);
+                pic1.setPosition(590, 290);
+                guiNode.attachChild(pic1);
+                
+                
+                 Picture pic2 = new Picture("derecha");
+                pic2.setImage(assetManager, "Shaders/cube.png", true);
+                pic2.setWidth(80);
+                pic2.setHeight(80);
+                pic2.setPosition(470, 420);  //ariba
+                //pic2.setPosition(470, 310); //abajo
+                guiNode.attachChild(pic2);
+            }
             public void movecamera(){
             }
             

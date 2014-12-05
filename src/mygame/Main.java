@@ -98,7 +98,6 @@ import java.awt.GraphicsEnvironment;
                 game.pause=pause;
         }
         
-
         @Override
         public void simpleUpdate(float tpf) {
 
@@ -109,9 +108,12 @@ import java.awt.GraphicsEnvironment;
                 menu.setLevel(level);
             menu.Update1(tpf);
             }else{
-             camreset();
-             game.init();
-             game.tetris();
+                
+                camreset();
+                game.init();
+            
+             
+                    game.tetris();
             }
 
           
